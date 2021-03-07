@@ -1,3 +1,5 @@
+import { TelegrafContext } from "telegraf/typings/context";
+
 require("dotenv").config();
 const { Telegraf } = require("telegraf");
 const bot = new Telegraf(process.env.BOT_TOKEN);
@@ -7,7 +9,7 @@ bot.telegram.getMe().then((botInfo) => {
 });
 const allowedWords = ["Денис", "Warehouse", "Олег", "Наберу"];
 
-const sendSticker = async (ctx) => {
+const sendSticker = async (ctx: TelegrafContext) => {
   const stickerSet = await ctx.getStickerSet("indexUpdate");
   const stickers = stickerSet.stickers.map((sticker) => sticker.file_id);
   const stickerId = Math.round(Math.random() * stickers.length);
@@ -20,9 +22,9 @@ const isShouldUpdated = () => {
   return Math.random() < 0.3;
 };
 
-bot.start((ctx) => ctx.reply("Я вас переиграю"));
-bot.help((ctx) => ctx.reply("Даже не думай"));
-bot.on("text", async (ctx) => {
+bot.start((ctx: TelegrafContext) => ctx.reply("Я вас переиграю"));
+bot.help((ctx: TelegrafContext) => ctx.reply("Даже не думай"));
+bot.on("text", async (ctx: TelegrafContext) => {
   if (
     allowedWords.some((word) =>
       ctx.update.message.text.toLowerCase().match(word.toLowerCase())
