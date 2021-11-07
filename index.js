@@ -2,9 +2,11 @@ require("dotenv").config();
 const { Telegraf } = require("telegraf");
 const express = require("express");
 const expressApp = express();
-const phrases = require("./phrases")
+const phrases = require("./phrases");
 
 const bot = new Telegraf(process.env.BOT_TOKEN);
+
+const version = 6;
 
 bot.telegram.getMe().then((botInfo) => {
   bot.options.username = botInfo.username;
@@ -36,7 +38,7 @@ const isShouldUpdated = () => {
 };
 
 bot.start((ctx) => ctx.reply("Я вас переиграю"));
-bot.help((ctx) => ctx.reply("Даже не думай"));
+bot.help((ctx) => ctx.reply(`Version: ${version}`));
 bot.on("text", async (ctx) => {
   if (
     allowedWords.some((word) =>
